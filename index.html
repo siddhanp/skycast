@@ -1,166 +1,201 @@
 <!doctype html>
 <html ng-app='MySkyCast'>
-<head>
-	<title>SkyCast Inc.</title>
+	<head>
+		<title>SkyCast Inc.</title>
 
+		<!--jQuery Link -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-	<!—jQuery Link -—>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<!--Bootstrap Links -—>
+		<!- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-	<!--Bootstrap Links -—>
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" 
+		integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" 
-	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>	
 
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
-	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>	
+		<!-- AngularJS Links -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-resource.min.js"></script>
+		<script src="index_angular.js"></script>
 
-	<!—- AngularJS Links -—>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-resource.min.js"></script>
-	<script src="index_angular.js"></script>
+		<!--CSS Links -->
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+		<link rel="stylesheet" type="text/css" href="css/weather-icons.min.css">
 
-	<!— CSS Links —->
-	<link rel="stylesheet" type="text/css" href="css/index.css">
-	<link rel="stylesheet" type="text/css" href="css/weather-icons.min.css">
+		<!--  Highchart Links -->
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+		<script src="https://code.highcharts.com/highcharts-more.js"></script>
 
-	<!—- Highchart Links -—>
-	<script src="https://code.highcharts.com/highcharts.js"></script>
-	<script src="https://code.highcharts.com/modules/exporting.js"></script>
-	<script src="https://code.highcharts.com/highcharts-more.js"></script>
-
+		<!-- Google Autocomplete Link -->
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfY1K13eTVfZhnynNWQbzEEfyOR0KLhZg&libraries=places"></script>
 	
-</head>
+	</head>
+
+	<body ng-controller='MainController'>
 
 
-<body ng-controller='MainController'>
-
-	<div class="jumbotron">
-	<center><h1>Welcome to SkyCast</h1></center>
-	</div>
-
-	<div class="container" style="max-width: 50em;">
-	<center>
-		<form class="form-inline">
-  			<div class="form-group">
-    				<input type="text" ng-model="inputCity" class="form-control" style="width: 400px;" placeholder="Enter a city (eg: Los Angeles, CA)">
-  			</div>
-  			<button type="submit" class="btn btn-default"><i class="wi wi-day-cloudy" ng-click="getCoordinates(inputCity)"></i></button>
-		</form>
-	</center>
-	</div>	
+		<!-- WELCOME TO SKYCAST -->
+		<div class="jumbotron">
+			<center><h1>Welcome to SkyCast</h1></center>
+		</div>
 	
 
-	<div ng-if="weather !== undefined">
-	
-	<div class="panel panel-default">
-  	<div class="panel-body">
-	
+		<!-- SEARCH BAR -->
+		<div class="container">
+			<center>
+				<form class="form-inline">
 
-		<table  width="100%" border="0">
-  			<tr>
-    				<th valign="center" colspan="4">
-						<h2 class= "cityName">{{displayCity}}</h2>
-						<h4 class = "cityTime">{{weather.currently.time * 1000 | date:'fullDate'}}</h4>
-						<h4 class="summary">{{weather.currently.summary}}</h4>
-				</th>
-  			</tr>
-  			<tr>
-    				<td width="25%" valign="center">
-					<div class="icon">
-						<i class="wi" ng-class="getWeatherIconClass(weather.currently.icon)"></i>
-						{{weather.currently.temperature| number:0}}°F
-						<br>
-					</div>
-					
-				</td>
+					<!-- TEXT BOX -->
+  					<div class="form-group">
+    					<input type="text" id="searchTextField" class="form-control" placeholder="Enter a city (eg: Los Angeles, CA)">
+  					</div>
+  					
+  					<!-- HISTORY BUTTON -->
+  					<div class="dropdown">
+    					<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="true" ng-click="retrieveHistory()" >
+    						<span style="font-size: 20px;" class="glyphicon glyphicon-time" aria-hidden="true"></span>
+    					</button>
 
-    				<td width="25%" style="margin-top:10px;" valign="center">
-					<h4>Feels Like: {{weather.currently.apparentTemperature| number:0}}°F </h4>
-					<h4>Humidity: {{weather.currently.humidity*100}} % </h4>
-					<h4>Wind: {{weather.currently.windSpeed}} mph </h4>
-				</td>
+    					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    						<li ng-repeat="city in historyOptions track by $index"><a ng-click="dropboxItemSelected(city)">{{city}}</a></li>
+    						<li ng-if="historyOptions.length === 0"><a><i>No History</i></a></li>
+      						<li role="separator" class="divider" ng-if="historyOptions.length > 0"></li>
+      						<li ng-if="historyOptions.length > 0"><a style="color:blue;" ng-click="clearHistory()"><i>Clear History</i></a></li>
+    					</ul>
+  					</div>
 
-    				<td width="25%" style="margin-top:10px;" valign="center">
-					<h4>Pressure: {{weather.currently.pressure * 0.0295300 | number: 2}} inHg </h4>
-					<h4>Visibility: {{weather.currently.visibility}} mil </h4>
-					<h4>Uv Index: {{weather.currently.uvIndex}} </h4>
-				</td>
-				<td  width="25%" style="margin-top:10px;" valign="center">
-					<div class="weathercell daily" ng-repeat="point in weather.daily.data| limitTo : 1 ">
-						<h4>Range: {{point.temperatureMin | number:0}}°F - {{point.temperatureMax | number:0}}°F</h4>
-						<h4>Sunrise Time: {{point.sunriseTime | date:'h:mma'}}</h4> 
-						<h4>Sunset Time: {{point.sunsetTime | date:'h:mmp'}}</h4>
-					</div>
-				</td>
-  			</tr>
-  			<tr align="center">
-    				<td colspan="4"><div id="weatherGraph" style="width:100%; height:250px;"></div></td>
-  			</tr>
-		</table>
+				</form>
+			</center>
+		</div>	
 
 
+		<!-- WEATHER DISPLAY AREA -->
+		<div ng-if="weather !== undefined">
 
-	</div>
-	</div>
-		
-	<div class="panel panel-default">
-  	<div class="panel-body">
-		<h4 style="margin-bottom:15px; margin-left:10px;">HOURLY</h4>
-		<div style="margin-left:10px;"class="weathertable-container">
-			<div class="weathertable">
-				<div class='weathercell well' ng-repeat="point in weather.hourly.data">
-					<div class="time">{{point.time * 1000 | date:'h:mm a (EEE)'}}</div>
-					<center><i class="wi" ng-class="getWeatherIconClass(point.icon)"></i></center>
-					<div style='text-align: center'>{{point.temperature | number:0}}°F</div>
-					<div style='text-align: center'>
-						{{point.precipProbability * 100 | number:0}}%
-						{{precipType(point.precipType)}}
-					</div>
-					<div class="summary">
-						{{point.summary}}
-					</div>
+
+			<!-- CURRENT WEATHER PANEL -->
+			<div class="panel panel-default">
+  				<div class="panel-body">
+					<table  width="100%" border="0">
+
+						<!-- NAME, DATETIME, SUMMARY -->
+  						<tr>
+    						<th valign="center" colspan="4">
+								<h2 ng-if="weather.currently.time" class="cityName">{{displayCity}}</h2>
+								<h4 ng-if="weather.currently.time" class="cityTime">{{weather.currently.time * 1000 | date:'fullDate'}}</h4>
+								<h4 ng-if="weather.currently.summary" class="summary">{{weather.currently.summary}}</h4>
+							</th>
+  						</tr>
+
+  						<!-- ICON, TEMPERATURE AND OTHER FIELDS -->
+  						<tr>
+    						<td width="25%" valign="center">
+								<div ng-if="weather.currently.temperature" class="icon">
+									<i class="wi" ng-class="getWeatherIconClass(weather.currently.icon)"></i>
+									{{weather.currently.temperature| number:0}}°F<br>
+								</div>
+							</td>
+    						<td width="25%" style="margin-top:10px;" valign="center">
+								<h4 ng-if="weather.currently.apparentTemperature" >Feels Like: {{weather.currently.apparentTemperature| number:0}}°F </h4>
+								<h4 ng-if="weather.currently.humidity">Humidity: {{weather.currently.humidity*100}} % </h4>
+								<h4 ng-if="weather.currently.windSpeed">Wind: {{weather.currently.windSpeed}} mph </h4>
+							</td>
+    						<td width="25%" style="margin-top:10px;" valign="center">
+								<h4 ng-if="weather.currently.pressure">Pressure: {{weather.currently.pressure * 0.0295300 | number: 2}} inHg </h4>
+								<h4 ng-if="weather.currently.visibility">Visibility: {{weather.currently.visibility}} mil </h4>
+								<h4 ng-if="weather.currently.uvIndex">Uv Index: {{weather.currently.uvIndex}} </h4>
+							</td>
+							<td  width="25%" style="margin-top:10px;" valign="center">
+								<div class="weathercontent daily" ng-repeat="point in weather.daily.data| limitTo : 1 ">
+									<h4 ng-if="point.temperatureMin">Range: {{point.temperatureMin | number:0}}°F - {{point.temperatureMax | number:0}}°F</h4>
+									<h4 ng-if="point.sunriseTime">Sunrise Time: {{point.sunriseTime | date:'h:mma'}}</h4> 
+									<h4 ng-if="point.sunsetTime">Sunset Time: {{point.sunsetTime | date:'h:mmp'}}</h4>
+								</div>
+							</td>
+  						</tr>
+
+  						<!-- HOURLY CHART -->
+  						<tr align="center">
+    						<td colspan="4"><div id="weatherGraph"></div></td>
+  						</tr>
+
+					</table>
 				</div>
 			</div>
-		</div>
-		
-	</div>
-	</div>
 
 
-	
-	<div class="panel panel-default">
-  	<div class="panel-body">
-		<h4 style="margin-bottom:15px; margin-left:10px;">DAILY</h4>	
-		<div style="margin-left:10px;" class="weathertable-container">
-			<div class="weathertable">
-				<div class="weathercell daily well" ng-repeat="point in weather.daily.data" ng-if="$index > 0">
+
+			<!-- HOURLY WEATHER PANEL -->
+			<div class="panel panel-default">
+  				<div class="panel-body">
+
+  					<!-- HOURLY HEADING -->
+					<h4 style="margin-bottom:15px; margin-left:10px;">HOURLY</h4>
+
+					<!-- HOURLY CARD SCROLLER -->
+					<div style="margin-left:10px;" class="weathercard-container">
+						<div class="weathercard">
+							<div class='weathercontent well' ng-repeat="point in weather.hourly.data">
+								<div class="time">{{point.time * 1000 | date:'h:mm a (EEE)'}}</div>
+								<center><i class="wi" ng-class="getWeatherIconClass(point.icon)"></i></center>
+								<div style='text-align: center'>{{point.temperature | number:0}}°F</div>
+									<div style='text-align: center'>
+										{{point.precipProbability * 100 | number:0}}%
+										{{precipType(point.precipType)}}
+									</div>
+								<div style='text-align: center' class="cardsummary">
+									{{point.summary}}
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+
+			<!-- DAILY WEATHER PANEL -->
+			<div class="panel panel-default">
+  				<div class="panel-body">
+
+  					<!-- DAILY HEADING -->
+					<h4 style="margin-bottom:15px; margin-left:10px;">DAILY</h4>	
+
+					<!-- DAILY CARD SCROLLER -->
+					<div style="margin-left:10px;" class="weathercard-container">
+						<div class="weathercard">
+							<div class="weathercontent daily well" ng-repeat="point in weather.daily.data" ng-if="$index > 0">
 				
-					<div class="time">{{point.time * 1000 | date:'EEE, d MMM'}}</div>
-					<center><i class="wi" ng-class="getWeatherIconClass(point.icon)"></i></center>
-					<div style='text-align: center'>
-						{{point.temperatureMin | number:0}}°F&nbsp;&nbsp;{{point.temperatureMax | number:0}}°F
+								<div class="time">{{point.time * 1000 | date:'EEE, d MMM'}}</div>
+								<center><i class="wi" ng-class="getWeatherIconClass(point.icon)"></i></center>
+								<div style='text-align: center'>
+									{{point.temperatureMin | number:0}}°F&nbsp;&nbsp;{{point.temperatureMax | number:0}}°F
+								</div>
+								<div style='text-align: center'>
+									{{point.precipProbability * 100 | number:0}}%
+									{{precipType(point.precipType)}}
+								</div>
+								<div class='cardsummary'>
+									{{point.summary}}
+								</div>
+							</div>
+						</div>
 					</div>
-					<div style='text-align: center'>
-						{{point.precipProbability * 100 | number:0}}%
-						{{precipType(point.precipType)}}
-					</div>
-					<div class='summary'>
-						{{point.summary}}
-					</div>
+		
 				</div>
-			</div>
+			</div>	
+
+
 		</div>
-		
-	</div>
-	</div>	
-		
-	</div>
 	
-</body>
+
+	</body>
 </html>
