@@ -1,54 +1,44 @@
+.container {
+	max-width: 50em;
+}
 
 h1 {
 	font-size: 34pt;
 }
 
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-size:15px;
+}
+
+::-moz-placeholder { /* Firefox 19+ */
+  font-size:15px;
+}
+
+:-ms-input-placeholder { /* IE 10+ */
+  font-size:15px;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  font-size:15px;
+}
+
+#searchTextField {
+	width: 450px; 
+	height:45px;
+}
+
+#dropdownMenu1 {
+	width: 45px; 
+	height:45px;
+}
+
+li {
+	text-align: center;
+}
+
 h4 {
 	margin-bottom: 2px;
 }
-
-.weathertable-container {
-	max-width: 100%;
-	overflow: scroll;
-	overflow-y: hidden; /*prevent vertical scrollbar from appearing*/
-}
-
-.weathertable {
-	display: table;
-	table-layout: fixed;
-}
-
-.weathercell {
-	min-width: 11em;
-	display: table-cell;
-}
-
-.weathercell.daily {
-	min-width: 20em;
-}
-
-.weathercell .wi {
-	font-size: 35px;
-	margin-top:8px;
-	margin-bottom:7px;
-	}
-
-.weathercell .time {
-	text-align: center;
-	font-weight: bold;
-	text-transform: uppercase;
-}
-
-.weathercell .summary {
-	text-align: center;
-	}
-
-.panel {
-	margin-left:5px;
-	margin-right:5px;
-	margin-top:25px;
-}
-
 
 .icon{
 	font-size: 55px;
@@ -57,4 +47,55 @@ h4 {
 
 .cityName,.icon, .summary, .cityTime {
 	margin-left:30px;
+}
+
+#weatherGraph {
+	width:100%; 
+	height:250px;
+}
+
+.dropdown{
+	 display: inline-block;
+}
+
+.weathercard {
+	display: table;
+	table-layout: fixed;
+}
+
+.weathercard-container {
+	overflow-y: hidden; 
+	overflow: scroll;
+	max-width: 100%;
+}
+
+.weathercontent {
+	min-width: 11em;
+	display: table-cell;
+}
+
+.weathercontent .wi {
+	font-size: 35px;
+	margin-top:8px;
+	margin-bottom:7px;
+}
+
+.weathercontent.daily {
+	min-width: 20em;
+}
+
+.weathercontent .cardsummary {
+	text-align: center;
+}
+
+.weathercontent .time {
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.panel {
+	margin-left:5px;
+	margin-right:5px;
+	margin-top:25px;
 }
